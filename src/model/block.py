@@ -3,10 +3,13 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 from . import SGBlock,FNet,Spartial_Attention,SwinT
+
+# 卷积层，仅用于计算 padding，并返回卷积层
 def conv_layer(in_channels, out_channels, kernel_size, stride=1, dilation=1, groups=1):
     padding = int((kernel_size - 1) / 2) * dilation
     return nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding=padding, bias=True, dilation=dilation,
                      groups=groups)
+
 def conv_layer2(in_channels, out_channels, kernel_size, stride=1, dilation=1, groups=1):
     return nn.Sequential(#400epoch 32.726 28.623
         nn.Conv2d(in_channels, int(in_channels * 0.5), 1, stride, bias=True),

@@ -14,8 +14,10 @@ class MyConcatDataset(ConcatDataset):
         for d in self.datasets:
             if hasattr(d, 'set_scale'): d.set_scale(idx_scale)
 
+# 如果有参数，则导入相关的库
 class Data:
     def __init__(self, args):
+        # 训练集的执行方式代码
         self.loader_train = None
         if not args.test_only:
             datasets = []
@@ -33,6 +35,7 @@ class Data:
                 num_workers=args.n_threads,
             )
 
+        # 以下是测试集的执行方式代码
         self.loader_test = []
         for d in args.data_test:
             if d in ['Set5', 'Set14', 'B100', 'Urban100','Manga109']:

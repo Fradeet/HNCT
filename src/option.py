@@ -9,7 +9,7 @@ parser.add_argument('--template', default='.',
                     help='You can set various templates in option.py')
 
 # Hardware specifications
-parser.add_argument('--n_threads', type=int, default=6,
+parser.add_argument('--n_threads', type=int, default=2,
                     help='number of threads for data loading')
 parser.add_argument('--cpu', action='store_true',
                     help='use cpu only')
@@ -19,7 +19,7 @@ parser.add_argument('--seed', type=int, default=1,
                     help='random seed')
 
 # Data specifications
-parser.add_argument('--dir_data', type=str, default='/home/linhanjiang/SRdataset/',
+parser.add_argument('--dir_data', type=str, default='/_carter/Use/dataset_cache/ESDR-Temp',
                     help='daptaset directory')
 parser.add_argument('--dir_demo', type=str, default='../test',
                     help='demo image directory')
@@ -97,7 +97,8 @@ parser.add_argument('--test_every', type=int, default=1000,
                     help='do test per every N batches')
 parser.add_argument('--epochs', type=int, default=1200,
                     help='number of epochs to train')
-parser.add_argument('--batch_size', type=int, default=16,
+# 调太大等着显存爆炸吧
+parser.add_argument('--batch_size', type=int, default=4,
                     help='input batch size for training')
 parser.add_argument('--split_batch', type=int, default=1,
                     help='split the batch into smaller chunks')
@@ -151,6 +152,7 @@ parser.add_argument('--save_results', action='store_true',
 parser.add_argument('--save_gt', action='store_true',
                     help='save low-resolution and high-resolution images together')
 
+#为命名空间添加如上参数
 args = parser.parse_args()
 template.set_template(args)
 

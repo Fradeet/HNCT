@@ -28,6 +28,7 @@ class SRData(data.Dataset):
             path_bin = os.path.join(self.apath, 'bin')
             os.makedirs(path_bin, exist_ok=True)
 
+        # 传入，根据情况组合文件夹对路径
         list_hr, list_lr = self._scan()
         if args.ext.find('img') >= 0 or benchmark:
             self.images_hr, self.images_lr = list_hr, list_lr
@@ -66,6 +67,7 @@ class SRData(data.Dataset):
                 self.repeat = max(n_patches // n_images, 1)
 
     # Below functions as used to prepare images
+    # 使用这个函数，通过以前获得的文件夹对位置，扫描，返回该获取的文件图像对
     def _scan(self):
         names_hr = sorted(
             glob.glob(os.path.join(self.dir_hr, '*' + self.ext[0]))
@@ -74,6 +76,7 @@ class SRData(data.Dataset):
         for f in names_hr:
             filename, _ = os.path.splitext(os.path.basename(f))
             for si, s in enumerate(self.scale):
+                # 通过文件名，获取对应的低分辨率图像
                 names_lr[si].append(os.path.join(
                     self.dir_lr, 'X{}/{}x{}{}'.format(
                         s, filename, s, self.ext[1]
@@ -116,6 +119,7 @@ class SRData(data.Dataset):
         else:
             return idx
 
+    # 载入图片文件或二进制张量
     def _load_file(self, idx):
         idx = self._get_index(idx)
         f_hr = self.images_hr[idx]
@@ -149,6 +153,7 @@ class SRData(data.Dataset):
 
         return lr, hr
 
+# 大文件容易内存溢出，这是内部缩放先减小的意思？
     def set_scale(self, idx_scale):
         if not self.input_large:
             self.idx_scale = idx_scale
